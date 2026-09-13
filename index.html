@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BGM2Pose: Active 3D Human Pose Estimation with Non-Stationary Sounds</title>
+  <meta name="description" content="BGM2Pose estimates 3D human poses from everyday background music played through consumer speakers and recorded with a single ambisonics microphone. IEEE Open Journal of Signal Processing, 2026.">
+  <meta property="og:title" content="BGM2Pose: Active 3D Human Pose Estimation with Non-Stationary Sounds">
+  <meta property="og:description" content="3D human pose estimation using background music as the sensing signal. IEEE OJSP 2026.">
+  <meta property="og:image" content="static/images/teaser.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1 class="title">
+      <span class="title-name">BGM2Pose</span>
+      <span class="title-rest">Active 3D Human Pose Estimation with Non&#8209;Stationary Sounds</span>
+    </h1>
+
+    <p class="authors">
+      <a href="https://yutoshibata07.github.io/YutoShibata/">Yuto Shibata</a><sup>1</sup>,
+      <a href="https://oumi03.github.io/">Yusuke Oumi</a><sup>1</sup>,
+      <a href="https://www.rs.tus.ac.jp/prmi/">Go Irie</a><sup>1,2</sup>,
+      <a href="https://akisatok.tech/">Akisato Kimura</a><sup>3</sup>,
+      <a href="https://aoki-medialab.jp/home-en/">Yoshimitsu Aoki</a><sup>1</sup>,
+      <a href="https://isogawa.ics.keio.ac.jp/">Mariko Isogawa</a><sup>1,4</sup>
+    </p>
+    <p class="affiliations">
+      <span><sup>1</sup>Keio University</span>
+      <span><sup>2</sup>Tokyo University of Science</span>
+      <span><sup>3</sup>NTT, Inc.</span>
+      <span><sup>4</sup>JST PRESTO</span>
+    </p>
+
+    <a class="venue" href="https://ieeexplore.ieee.org/document/11570037/">
+      <span class="venue-name">IEEE Open Journal of Signal Processing<span class="venue-meta">Vol. 7 &middot; 2026</span></span>
+    </a>
+
+    <nav class="links">
+      <a class="link-btn" href="https://ieeexplore.ieee.org/document/11570037/"><i class="fa-solid fa-file-lines"></i>Paper</a>
+      <a class="link-btn" href="https://arxiv.org/abs/2503.00389"><i class="ai ai-arxiv"></i>arXiv</a>
+      <a class="link-btn" href="https://ieee-dataport.org/documents/acoustic-music-based-pose-learning-ampl"><i class="fa-solid fa-database"></i>AMPL Dataset</a>
+      <a class="link-btn" href="#bibtex"><i class="fa-solid fa-quote-right"></i>BibTeX</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Demo -->
+  <section class="demo">
+    <div class="wrap wide">
+      <figure class="demo-figure">
+        <div class="video-stage">
+          <div class="video-frame">
+            <video id="demo-video" autoplay muted loop playsinline controls preload="auto" poster="static/images/posters/demo.jpg">
+              <source src="static/videos/demo.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="sound-toggle" id="sound-toggle" aria-pressed="false" hidden>
+              <i class="fa-solid fa-volume-xmark"></i><span>Unmute</span>
+            </button>
+          </div>
+          <button type="button" class="unmute-cta" id="unmute-cta">
+            <span class="cta-icon" aria-hidden="true"><i class="fa-solid fa-volume-high"></i></span>
+            <span class="cta-text"><strong>Turn on sound</strong><span>Hear the music used as the sensing signal</span></span>
+          </button>
+        </div>
+        <figcaption>
+          Two off-the-shelf speakers play ordinary background music, and one ambisonics microphone records the room.
+          BGM2Pose predicts the 3D pose from the recording and the playback track alone&nbsp;&mdash; the RGB view is for reference only.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Abstract -->
+  <section class="block" id="abstract">
+    <div class="wrap">
+      <h2>Abstract</h2>
+      <div class="prose abstract">
+        <p>
+          We propose BGM2Pose, a non-invasive 3D human pose estimation method using pre-selected everyday music
+          (e.g., background music) as active sensing signals. Unlike existing approaches that significantly limit
+          practicality by employing intrusive chirp signals within the audible range, our method utilizes
+          user-selected natural music that causes minimal discomfort to listeners. Estimating human poses from
+          standard music presents significant challenges. In contrast to sound sources specifically designed for
+          measurement, regular music varies in both volume and pitch. These dynamic changes in signals caused by
+          music are inevitably mixed with alterations in the sound field resulting from human motion, making it hard
+          to extract reliable cues for pose estimation.
+        </p>
+        <p>
+          To address these challenges, BGM2Pose introduces a Contrastive Pose Extraction Module that employs
+          contrastive learning and hard negative sampling to eliminate musical components from the recorded data,
+          isolating the pose information. Additionally, we propose a Frequency-wise Attention Module that enables the
+          model to focus on subtle acoustic variations attributable to human movement by dynamically computing
+          attention across frequency bands. Experiments suggest that our method outperforms the existing methods,
+          demonstrating substantial potential for real-world applications.
+        </p>
+      </div>
+    </div>
+
+    <div class="wrap wide">
+      <figure class="figure">
+        <a class="zoom" href="static/images/teaser.png"><img src="static/images/teaser.png" alt="Chirp signals versus background music as sensing signals, and the BGM2Pose setup" loading="lazy"></a>
+        <figcaption>
+          Chirp signals are loud and must be the same at training and test time. Background music is pleasant, but
+          it has no periodicity and only a narrow, shifting band of frequencies is active at any moment.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Method -->
+  <section class="block tinted" id="method">
+    <div class="wrap wide">
+      <h2>Method</h2>
+      <figure class="figure figure-method">
+        <a class="zoom" href="static/images/method_overview.png"><img src="static/images/method_overview.png" alt="Overview of the BGM2Pose architecture" loading="lazy"></a>
+      </figure>
+    </div>
+
+    <div class="wrap">
+      <div class="method-steps">
+        <div class="step">
+          <h3><span class="step-tag">A</span>Acoustic features with the music taken out</h3>
+          <p>
+            The system controls playback, so the clean music signal is always available&nbsp;&mdash; at inference as well as training.
+            We compute log-mel spectrograms of the four-channel recording (<i>w, x, y, z</i>) and of each speaker's track,
+            and subtract the latter from the former after normalization. In the log domain this is a pseudo transfer function
+            of the room. Stacked with the three-channel intensity vector, the input has 11 channels, 128 mel bins and 12 frames.
+          </p>
+        </div>
+
+        <div class="step">
+          <h3><span class="step-tag">B</span>Frequency-wise Attention module</h3>
+          <p>
+            A chirp excites every frequency in turn; music does not. Only a few bands carry energy at a given moment, and
+            those are the only bands where a body can leave a trace. The FA module keeps full frequency resolution in its
+            early layers and lets each mel bin of the recording (query) attend over the bins of the playback track (key),
+            with a shared learnable frequency embedding. The learned weights are sparse and move with the music, as the
+            inset in the figure shows. No temporal attention is used; a time-wise 1D U-Net then decodes 21 joints for all 12 frames.
+          </p>
+        </div>
+
+        <div class="step">
+          <h3><span class="step-tag">C</span>Contrastive Pose Extraction module</h3>
+            <p>
+              During training, the audio embedding (<code>[CLS]</code>) and the ground-truth pose embedding (<code>[POSE]</code>)
+              are aligned with a symmetric contrastive loss. With <em>BGM-based hard negative sampling</em>, each mini-batch
+              is filled with clips recorded under the same track. Those clips sound almost alike, so the only way to match
+              audio to the right pose is through what the body did&nbsp;&mdash; music-specific content gets pushed out of the representation.
+            </p>
+            <p class="step-note">
+              Total loss: <span class="math">L<sub>pose</sub> + 100&thinsp;L<sub>smooth</sub> + L<sub>cpe</sub></span>, with temperature &tau;&nbsp;=&nbsp;0.07.
+          </p>
+          <figure class="step-figure">
+            <a class="zoom" href="static/images/contrastive.png"><img src="static/images/contrastive.png" alt="Contrastive learning between pose and recorded audio with BGM-based hard negatives" loading="lazy"></a>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Qualitative -->
+  <section class="block" id="qualitative">
+    <div class="wrap">
+      <h2>Qualitative comparison</h2>
+      <p class="lead">
+        Every clip shows a subject who was not in the training set. Baselines are
+        Jiang&nbsp;et&nbsp;al. (WiFi-based pose estimation), Ginosar&nbsp;et&nbsp;al. (speech-to-gesture) and
+        Shibata&nbsp;et&nbsp;al. (chirp-based acoustic pose estimation, CVPR&nbsp;2023), all retrained on our recordings.
+      </p>
+    </div>
+
+    <div class="wrap wide">
+      <article class="clip">
+        <header class="clip-head">
+          <span class="clip-no">1</span>
+          <div>
+            <h3>Single-music</h3>
+            <p>The same ambient track is played during training and testing.</p>
+          </div>
+          <span class="clip-audio"><i class="fa-solid fa-headphones"></i>With audio</span>
+        </header>
+        <div class="video-frame">
+          <video controls playsinline preload="metadata" poster="static/images/posters/single-music-comparison.jpg">
+            <source src="static/videos/single-music-comparison.mp4" type="video/mp4">
+          </video>
+        </div>
+      </article>
+
+      <article class="clip">
+        <header class="clip-head">
+          <span class="clip-no">2</span>
+          <div>
+            <h3>Cross-music</h3>
+            <p>The test track never appears in training. The subject wears a mocap suit, so ground truth is available.</p>
+          </div>
+          <span class="clip-audio"><i class="fa-solid fa-headphones"></i>With audio</span>
+        </header>
+        <div class="video-frame">
+          <video controls playsinline preload="metadata" poster="static/images/posters/cross-music-mocap-suit.jpg">
+            <source src="static/videos/cross-music-mocap-suit.mp4" type="video/mp4">
+          </video>
+        </div>
+      </article>
+
+      <article class="clip">
+        <header class="clip-head">
+          <span class="clip-no">3</span>
+          <div>
+            <h3>Cross-music, plain clothes</h3>
+            <p>Trained only on mocap-suit recordings, tested on a subject in everyday clothes with an unseen track.</p>
+          </div>
+          <span class="clip-audio"><i class="fa-solid fa-headphones"></i>With audio</span>
+        </header>
+        <div class="video-frame">
+          <video controls playsinline preload="metadata" poster="static/images/posters/cross-music-plain.jpg">
+            <source src="static/videos/cross-music-plain.mp4" type="video/mp4">
+          </video>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Quantitative -->
+  <section class="block tinted" id="results">
+    <div class="wrap">
+      <h2>Quantitative results</h2>
+      <p class="lead">
+        Evaluated on AMPL: 4+ hours of synchronized audio and motion capture, 27 sessions, 9 subjects and four tracks
+        (three ambient, one jazz), recorded in a classroom with background noise and reverberation. All settings are
+        cross-subject. Errors are in units of the hip&ndash;spine distance (9.21&nbsp;cm on average), averaged over three seeds;
+        whiskers show one standard deviation.
+      </p>
+
+      <div class="chart-card" id="comparison-chart">
+        <div class="chart-top">
+          <div class="tabs" role="tablist" aria-label="Evaluation setting"></div>
+          <p class="chart-desc" aria-live="polite"></p>
+        </div>
+        <div class="panels"></div>
+        <details class="table-view">
+          <summary>Show as table</summary>
+          <div class="table-scroll"></div>
+        </details>
+      </div>
+
+      <h3 class="sub">Ablation</h3>
+      <p class="lead">
+        Removing the FA module costs the most, especially when the test music is unseen
+        (cross-music RMSE 1.036&nbsp;&rarr;&nbsp;1.210). Without the CPE module, PCKh@0.5 drops from 0.573 to 0.531
+        in the single-music setting.
+      </p>
+      <div class="chart-card" id="ablation-chart">
+        <div class="chart-top">
+          <div class="tabs" role="tablist" aria-label="Ablation setting"></div>
+          <p class="chart-desc" aria-live="polite"></p>
+        </div>
+        <div class="panels"></div>
+        <details class="table-view">
+          <summary>Show as table</summary>
+          <div class="table-scroll"></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- BibTeX -->
+  <section class="block" id="bibtex">
+    <div class="wrap">
+      <h2>BibTeX</h2>
+      <div class="bibtex">
+        <button type="button" class="copy" id="copy-bibtex"><i class="fa-regular fa-copy"></i><span>Copy</span></button>
+<pre><code id="bibtex-code">@article{shibata2026bgm2pose,
+  title   = {{BGM2Pose}: Active {3D} Human Pose Estimation With Non-Stationary Sounds},
+  author  = {Shibata, Yuto and Oumi, Yusuke and Irie, Go and Kimura, Akisato and Aoki, Yoshimitsu and Isogawa, Mariko},
+  journal = {IEEE Open Journal of Signal Processing},
+  volume  = {7},
+  pages   = {790--799},
+  year    = {2026},
+  doi     = {10.1109/OJSP.2026.3705347}
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p>
+      This work was partially supported by JST PRESTO JPMJPR22C1, JSPS Grant-in-Aid for Challenging Research (Exploratory) 24K22296,
+      JST BOOST JPMJBS2409, and Keio Gijuku Academic Development Funds.
+    </p>
+    <p class="muted">Page layout adapted from <a href="https://nerfies.github.io/">Nerfies</a>.</p>
+  </div>
+</footer>
+
+<div class="tooltip" id="tooltip" role="status" hidden></div>
+
+<script src="static/js/main.js"></script>
+</body>
+</html>
